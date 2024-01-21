@@ -1,0 +1,33 @@
+const express = require('express');
+const axios = require('axios');
+require('dotenv').config();
+
+const app = express();
+app.use(express.json());
+
+// Ruta GET de prueba
+app.get('/', (req, res) => {
+    res.send('Chatbot Backend Funcionando');
+});
+
+app.post('/message', async (req, res) => {
+    try {
+        const userMessage = req.body.message;
+        // Aquí es donde enviarías el mensaje a GPT-4 y recibirías la respuesta.
+        // Por ahora, devolveremos una respuesta simulada.
+        const gptResponse = await simulateGPT4Response(userMessage);
+        res.json({ message: gptResponse });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+// Simula una respuesta de GPT-4 (reemplaza esta función con la integración real más tarde)
+async function simulateGPT4Response(message) {
+    return `Respuesta simulada a: ${message}`;
+}
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor ejecutándose en el puerto ${PORT}`);
+});
